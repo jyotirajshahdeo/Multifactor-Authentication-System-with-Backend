@@ -91,3 +91,56 @@ show tables;
 desc <table_name /> ( to view the schema of database )
 SELECT * FROM <table_name/> ( to see the data of desired table )
 
+Biometric Authentication Implementation
+This document provides instructions for implementing biometric authentication in the application.
+
+Overview
+The biometric authentication system uses the WebAuthn API to provide secure, passwordless authentication using biometric devices (fingerprint, face recognition, etc.).
+
+Frontend Implementation
+The frontend implementation consists of:
+
+BiometricLogin Component: A standalone component for biometric login
+Dashboard Component: A simple dashboard that users are redirected to after successful login
+Route Configuration: Routes for the biometric login and dashboard pages
+Backend Requirements
+The backend needs to implement the following endpoints:
+
+Start Verification: /biometric/verify/start
+
+Accepts: { email: string }
+Returns: WebAuthn authentication options including challenge
+Finish Verification: /biometric/verify/finish
+
+Accepts: { email: string, assertionResponse: object }
+Returns: Verification result
+Implementation Steps
+1. Install Required Packages
+npm install base64url
+2. Configure Environment Variables
+Make sure your .env file includes:
+
+VITE_API_BASE_URL=http://your-api-url
+3. Backend Implementation
+The backend should:
+
+Generate authentication options with a challenge
+Store the challenge for later verification
+Verify the assertion response against the stored challenge
+Update the user's authentication status
+4. Testing
+To test the biometric login:
+
+Navigate to /biometric-login
+Enter your email
+Follow the browser's prompts to authenticate with your biometric device
+Upon successful authentication, you'll be redirected to the dashboard
+Troubleshooting
+"Failed to resolve import 'base64url'": Make sure you've installed the package with npm install base64url
+"API endpoint not found": Ensure your backend has implemented the required endpoints
+"Device authentication failed": Check that your device supports WebAuthn and has biometric capabilities
+Security Considerations
+Always use HTTPS in production
+Implement proper session management
+Consider rate limiting for authentication attempts
+Store credentials securely using appropriate encryption
